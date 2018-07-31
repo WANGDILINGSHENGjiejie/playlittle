@@ -13,114 +13,24 @@
                             <div class="left-220" style="margin: 0px;">
                                 <div class="banner-nav">
                                     <ul>
-                                        <li>
+                                        <li v-for="(item, index) in catelist" :key="item.id">
                                             <h3>
                                                 <i class="iconfont icon-arrow-right"></i>
-                                                <span>手机数码</span>
+                                                <span>{{item.title}}</span>
                                                 <p>
-                                                    <span>
-                                                        手机通讯&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        摄影摄像&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        存储设备&nbsp;
+                                                    <span v-for="(itemSon, i) in item.subcates" :key="itemSon.id">
+                                                       {{itemSon.title}}&nbsp;
                                                     </span>
                                                 </p>
                                             </h3>
                                             <div class="item-box">
                                                 <dl>
                                                     <dt>
-                                                        <a href="/goods/40.html">手机数码</a>
+                                                        <a href="/goods/40.html"> {{item.title}}</a>
                                                     </dt>
                                                     <dd>
-                                                        <a href="/goods/43.html">手机通讯</a>
-                                                        <a href="/goods/43.html">摄影摄像</a>
-                                                        <a href="/goods/43.html">存储设备</a>
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <h3>
-                                                <i class="iconfont icon-arrow-right"></i>
-                                                <span>电脑办公</span>
-                                                <p>
-                                                    <span>
-                                                        电脑整机&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        外设产品&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        办公打印&nbsp;
-                                                    </span>
-                                                </p>
-                                            </h3>
-                                            <div class="item-box">
-                                                <dl>
-                                                    <dt>
-                                                        <a href="/goods/40.html">电脑办公</a>
-                                                    </dt>
-                                                    <dd>
-                                                        <a href="/goods/43.html">电脑整机</a>
-                                                        <a href="/goods/43.html">外设产品</a>
-                                                        <a href="/goods/43.html">办公打印</a>
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <h3>
-                                                <i class="iconfont icon-arrow-right"></i>
-                                                <span>影音娱乐</span>
-                                                <p>
-                                                    <span>
-                                                        平板电视&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        音响DVD&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        影音配件&nbsp;
-                                                    </span>
-                                                </p>
-                                            </h3>
-                                            <div class="item-box">
-                                                <dl>
-                                                    <dt>
-                                                        <a href="/goods/40.html">影音娱乐</a>
-                                                    </dt>
-                                                    <dd>
-                                                        <a href="/goods/43.html">平板电视</a>
-                                                        <a href="/goods/43.html">音响DVD</a>
-                                                        <a href="/goods/43.html">影音配件</a>
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <h3>
-                                                <i class="iconfont icon-arrow-right"></i>
-                                                <span>服装类</span>
-                                                <p>
-                                                    <span>
-                                                        男装&nbsp;
-                                                    </span>
-                                                    <span>
-                                                        女装&nbsp;
-                                                    </span>
-                                                </p>
-                                            </h3>
-                                            <div class="item-box">
-                                                <dl>
-                                                    <dt>
-                                                        <a href="/goods/40.html">服装类</a>
-                                                    </dt>
-                                                    <dd>
-                                                        <a href="/goods/43.html">男装</a>
-                                                        <a href="/goods/43.html">女装</a>
+                                                        <a v-for="(itemSon, i) in item.subcates" :key="itemSon.id"
+                                                         href="/goods/43.html">{{itemSon.title}}</a>
                                                     </dd>
                                                 </dl>
                                             </div>
@@ -587,8 +497,40 @@
 </template>
 
 <script>
+//导入模块
+import axios  from 'axios';
+//接口调用
     export default{
-
+        //数据
+        data:function(){
+            return{
+                catelist:[],
+                sliderlist:[],
+                toplist:[]
+            }
+        },
+       beforeMount() {
+           axios.get("http://47.106.148.205:8899/site/goods/gettopdata/goods")
+           .then((response)=>{
+            //    console.log(response);
+             this.catelist=response.data.message.catelist;
+             this.sliderlist=response.data.message.sliderlist;
+             this.toplist=response.data.message.toplist;
+           })
+           .catch((error)=>{
+               console.log(error);
+           })
+       },
+      mounted() {
+        //   console.log('显示了哈');
+        //        axios.get("http://47.106.148.205:8899/site/goods/gettopdata/goods")
+        //    .then((response)=>{
+        //        console.log(response);
+        //    })
+        //    .catch((error)=>{
+        //        console.log(error);
+        //    })
+      },
     }
 </script>
 
