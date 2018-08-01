@@ -67,50 +67,20 @@
                                 </div>
                             </div>
                             <!--/幻灯片-->
-                            <div class="left-220">
-                                <ul class="side-img-list">
-                                    <li>
-                                        <div class="img-box">
-                                            <label>1</label>
-                                            <img src="http://39.108.135.214:8899/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg">
-                                        </div>
-                                        <div class="txt-box">
-                                            <a href="/goods/show-98.html">骆驼男装2017秋季新款运动休闲纯色夹克青年宽松长袖针织开衫卫衣</a>
-                                            <span>2017-09-26</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-box">
-                                            <label>2</label>
-                                            <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200314272543.jpg">
-                                        </div>
-                                        <div class="txt-box">
-                                            <a href="/goods/show-98.html">奔腾（BNTN） 380功放+纽约至尊 套装家庭影院</a>
-                                            <span>2015-04-20</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-box">
-                                            <label>3</label>
-                                            <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200318534459.jpg">
-                                        </div>
-                                        <div class="txt-box">
-                                            <a href="/goods/show-98.html">飞利浦（PHILIPS）DVP3690 全高清DVD影碟机播放器</a>
-                                            <span>2015-04-20</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-box">
-                                            <label>4</label>
-                                            <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200258403759.jpg">
-                                        </div>
-                                        <div class="txt-box">
-                                            <a href="/goods/show-98.html">三星（SAMSUNG）UA40HU5920JXXZ 40英寸4K超高清</a>
-                                            <span>2015-04-20</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                             <div class ="left-220">
+                        <ul class="side-img-list">
+                            <li v-for="(item, index) in toplist" :key="item.id">
+                                <div class="img-box">
+                                    <label>{{index+1}}</label>
+                                    <img :src="item.img_url">
+                                </div>
+                                <div class="txt-box">
+                                    <a href="/goods/show-98.html">{{item.title}}</a>
+                                    <span>{{item.add_time | cutTime }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                         </div>
                     </div>
                 </div>
@@ -371,7 +341,7 @@
                                         </div>
                                         <div class="info">
                                             <h3>奔腾（BNTN） 380功放+纽约至尊 套装家庭影院</h3>
-                                            <p class="price">
+                                             <p class="price">
                                                 <b>4880</b>元</p>
                                             <p>
                                                 <strong>库存 10</strong>
@@ -499,6 +469,8 @@
 <script>
 //导入模块
 import axios  from 'axios';
+//引入模块moment
+import moment from 'moment';
 //接口调用
     export default{
         //数据
@@ -508,6 +480,13 @@ import axios  from 'axios';
                 sliderlist:[],
                 toplist:[]
             }
+        },
+        //过滤器
+        filters:{
+          cutTime(value){
+            //   return value.slice(0,10);
+          return  moment().format('YYYY年MM月DD日');
+          }
         },
        beforeMount() {
            axios.get("http://47.106.148.205:8899/site/goods/gettopdata/goods")
